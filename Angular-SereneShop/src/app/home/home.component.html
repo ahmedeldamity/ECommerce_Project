@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <section>
+    <owl-carousel-o [options]="mainSliderOptions">
+      <ng-template carouselSlide>
+        <img height="450" src="./assets/images/food_1.jpg" alt="slider-1">
+      </ng-template>
+      <ng-template carouselSlide>
+        <img height="450" src="./assets/images/food_2.jpg" alt="slider-2">
+      </ng-template>
+      <ng-template carouselSlide>
+        <img height="450" src="./assets/images/food_3.jpg" alt="slider-3">
+      </ng-template>
+    </owl-carousel-o>
+  </section>
+  <section class="py-4" *ngIf="brands?.length">
+    <h2 class="fw-bold">Popular Categories</h2>
+    <owl-carousel-o [options]="categoryOptions">
+      <ng-container *ngFor="let brand of brands">
+        <ng-template carouselSlide>
+          <img height="300" [src]="brand.imageCover" [alt]="brand.name" [title]="brand.name">
+          <h3 class="h6 text-main text-center">{{brand.name}}</h3>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </section>
+  <section class="py-4" *ngIf="productsData.length > 0">
+    <h2 class="fw-bold">Popular Products</h2>
+    <input [(ngModel)]="searchValue" type="text" class="form-control w-50 mx-auto form-control-sm my-3" placeholder="Search">
+    <div class="row g-4">
+      <div *ngFor="let product of productsData| search:searchValue | slice:0:18" class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="product h-100">
+          <header role="button" [routerLink]="['/productdetails', product.id]">
+            <div style="height: 300px;" class="d-flex justify-content-center align-items-center">
+              <img style="max-width: 100%; max-height: 100%;" [src]="product.imageCover" [title]="product.name" [alt]="product.name">
+            </div>
+            <h3 class="h6">{{product.name}}</h3>
+            <h4 class="h6 text-main">{{product.category}}</h4>
+            <div class="d-flex align-items-center justify-content-between small mb-1">
+              <span>{{product.price | currency}}</span>
+              <p class="mb-0">
+                <i [class.rating-color]="product.ratingsAverage >= starNumber" *ngFor="let starNumber of [1,2,3,4,5]" class="fas fa-star"></i>
+                <span class="text-muted">{{product.ratingsAverage}}</span>
+              </p>
+          </div>
+          </header>
+          <footer>
+            <button (click)="addItemToBasekt(product)" class="main-btn mt-1 w-100">+Add To Cart</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

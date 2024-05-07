@@ -1,0 +1,28 @@
+<section class="container pt-4">
+  <div class="row justify-content-between" *ngIf="product">
+    <div class="col-4">
+      <owl-carousel-o [options]="mainSliderOptions" style="height: 390px;">
+        <ng-template carouselSlide *ngFor="let image of product.images">
+          <img style="max-height: 100%; max-width: 100%;" src="{{image}}" alt="{{product.name}}">
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+    <div class="col-8 mt-5">
+      <h2>{{product.name}}</h2>
+      <p class="fs-4">{{product.price | currency}}</p>
+      <h5 class="text-primary mb-3" *ngIf="quantityInBasket > 0">
+        You have {{quantityInBasket}} of this item in your basket
+      </h5>
+      <div class="d-flex justify-content-start align-items-center">
+        <i (click)="decrementQuantity()" class="fa fa-minus-circle text-warning me-2" style="cursor: pointer; font-size: 2em;"></i>
+        <span class="fw-bold" style="font-size: 1.5em;">{{quantity}}</span>
+        <i (click)="incrementQuantity()" class="fa fa-plus-circle text-warning ms-2" style="cursor: pointer; font-size: 2em;"></i>
+        <button (click)="updateQuantity()" [class.disabled-btn]="quantity === quantityInBasket" class="main-btn ms-4">Add to cart</button>
+      </div>
+      <div class="row mt-4">
+        <h4>Description</h4>
+        <p>{{product.description}}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,55 @@
+<header class="d-flex justify-content-between align-items-center navbar navbar-expand-lg p-3 px-4 bg-body-tertiary fixed-top shadow-sm">
+  <a class="navbar-brand" routerLink="/">
+    <img width="120" src="./assets/images/logo.png" alt="cart logo">
+  </a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/shop" routerLinkActive="active-link">Shop</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/test-error" routerLinkActive="active-link">Errors</a>
+      </li>
+    </ul>
+  </div>
+  <div class="d-flex align-items-center">
+    <a routerLink="/basket" class="position-relative">
+      <i class="fa fa-shopping-cart fa-2x me-5" style="color: rgb(174, 196, 202);"></i>
+      <div *ngIf="(_BasketService.basketSource$ | async) as basket" class="cart-no bg-primary">
+        {{basket.items.length}}
+      </div>
+    </a>
+    <ng-container *ngIf="(_AccountService.currentUser$ | async) === null">
+      <a routerLink="/account/login" class="btn btn-outline-primary me-2">Login</a>
+      <a routerLink="/account/register" class="btn btn-outline-primary me-3">Sign Up</a>
+    </ng-container>
+    <ng-container *ngIf="(_AccountService.currentUser$ | async) as user">
+      <div class="dropdown ms-3 me-5" style="cursor: pointer;" dropdown>
+        <a dropdownToggle class="dropdown-toggle text-decoration-none">
+          <data class="text-primary">Welocme <strong class="text-warning">{{user.displayName}}</strong></data>
+        </a>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+          <li class="py-1">
+            <a routerLink="/basket" class="dropdown-item">
+              <i class="fa fa-shopping-cart me-3"></i> View Cart
+            </a>
+          </li>
+          <li class="py-1">
+            <a routerLink="/orders" class="dropdown-item">
+              <i class="fa fa-history me-3"></i> View orders
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li class="py-1">
+            <a (click)="_AccountService.logout()" class="dropdown-item">
+              <i class="fa fa-sign-out me-3"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
+</header>
